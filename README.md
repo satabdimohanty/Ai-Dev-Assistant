@@ -1,36 +1,185 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 AI Dev Assistant
 
-## Getting Started
+An AI-powered developer tool built with **Next.js, React, Tailwind CSS, and Groq API** to help you **explain, debug, and generate code instantly** ⚡
 
-First, run the development server:
+---
+
+## ✨ Features
+
+* 💡 **Explain Code** – Understand complex logic easily
+* 🐞 **Debug Code** – Detect and fix errors
+* ⚡ **Generate Code** – Create code snippets instantly
+* 🕘 **Sidebar History** – Chat-like history panel
+* 🎨 **Modern UI** – Glassmorphism + gradient design
+* ❌ **Clear Input** – Reset with one click
+* ⚡ **Ultra-fast AI responses (Groq)**
+
+---
+
+## 🛠️ Tech Stack
+
+* **Next.js (App Router)**
+* **React**
+* **TypeScript**
+* **Tailwind CSS**
+* **Groq API (LLM inference)**
+
+---
+
+## 🔌 Groq API Integration
+
+This project uses **Groq** for lightning-fast AI responses.
+
+### 📦 Install Groq SDK
+
+```bash
+npm install groq-sdk
+```
+
+---
+
+### 🔑 Setup Environment Variables
+
+Create a `.env.local` file:
+
+```env
+GROQ_API_KEY=your_groq_api_key_here
+```
+
+👉 Get your API key from: https://console.groq.com/
+
+---
+
+### ⚙️ Example API Route (Next.js)
+
+Create:
+
+```bash
+app/api/ai/route.ts
+```
+
+```ts
+import { NextResponse } from "next/server";
+import Groq from "groq-sdk";
+
+const groq = new Groq({
+  apiKey: process.env.GROQ_API_KEY!,
+});
+
+export async function POST(req: Request) {
+  const { input, type } = await req.json();
+
+  let prompt = "";
+
+  if (type === "explain") {
+    prompt = `Explain this code:\n${input}`;
+  } else if (type === "debug") {
+    prompt = `Debug this code and fix errors:\n${input}`;
+  } else {
+    prompt = `Generate code for:\n${input}`;
+  }
+
+  const response = await groq.chat.completions.create({
+    model: "llama3-70b-8192",
+    messages: [
+      { role: "user", content: prompt }
+    ],
+  });
+
+  return NextResponse.json({
+    result: response.choices[0]?.message?.content,
+  });
+}
+```
+
+---
+
+## 🧠 How It Works
+
+1. Enter your **code or prompt**
+2. Choose an action:
+
+   * 💡 Explain
+   * 🐞 Debug
+   * ⚡ Generate
+3. Request is sent to **Groq API**
+4. Response is displayed instantly
+
+---
+
+## 📁 Project Structure
+
+```bash
+app/
+ ├── page.tsx           # Main UI
+ ├── api/
+ │    └── ai/route.ts   # Groq API handler
+components/
+ ├── Sidebar.tsx
+ ├── Buttons.tsx
+styles/
+ └── globals.css
+```
+
+---
+
+## ⚙️ Installation & Setup
+
+### 1. Clone repo
+
+```bash
+git clone https://github.com/satabdimohanty/Ai-Dev-Assistant.git
+cd ai-dev-assistant
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Add environment variable
+
+```env
+GROQ_API_KEY=your_key_here
+```
+
+### 4. Run project
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+👉 Open:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🔮 Future Improvements
 
-To learn more about Next.js, take a look at the following resources:
+* 💬 ChatGPT-like streaming UI
+* 📋 Copy response button
+* 🌙 Dark/Light mode toggle
+* 🧾 Code formatting & syntax highlighting
+* 🔐 Authentication
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🤝 Contributing
 
-## Deploy on Vercel
+```bash
+fork → clone → create branch → commit → push → PR
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## 👨‍💻 Author
+
+**Satabdi Mohanty**
+
+---
+
+⭐ Star this repo if you like it!
